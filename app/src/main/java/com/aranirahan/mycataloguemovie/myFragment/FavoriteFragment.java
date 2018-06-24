@@ -1,10 +1,11 @@
 package com.aranirahan.mycataloguemovie.myFragment;
 
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,62 +16,40 @@ import android.view.ViewGroup;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.adapter.FavoriteAdapter;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import java.util.Objects;
 
-import static com.aranirahan.mycataloguemovie.provider.DatabaseContract.CONTENT_URI;
-
+import static com.aranirahan.mycataloguemovie.database.DatabaseContract.CONTENT_URI;
 
 public class FavoriteFragment extends Fragment {
 
     private Context context;
-    private Unbinder unbinder;
-
-    @BindView(R.id.rv_main)
-    RecyclerView rv_favorite;
-
-    private Cursor list;
+    RecyclerView rvMain;
+    private Cursor cursor;
     private FavoriteAdapter adapter;
 
     public FavoriteFragment() {
-        // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        Objects.requireNonNull(getActivity()).setTitle(R.string.favorite_movie);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        rvMain = view.findViewById(R.id.rv_main);
         context = view.getContext();
 
-        unbinder = ButterKnife.bind(this, view);
+        adapter = new FavoriteAdapter(cursor);
+        rvMain.setLayoutManager(new LinearLayoutManager(context));
+        rvMain.setAdapter(adapter);
 
-        setupList();
-        new loadDataAsync().execute();
+        new loadData().execute();
 
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        new loadDataAsync().execute();
-    }
-
-    private void setupList() {
-        adapter = new FavoriteAdapter(list);
-        rv_favorite.setLayoutManager(new LinearLayoutManager(context));
-        rv_favorite.setAdapter(adapter);
-    }
-
-    private class loadDataAsync extends AsyncTask<Void, Void, Cursor> {
+    @SuppressLint("StaticFieldLeak")
+    private class loadData extends AsyncTask<Void, Void, Cursor> {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
@@ -87,8 +66,8 @@ public class FavoriteFragment extends Fragment {
         protected void onPostExecute(Cursor cursor) {
             super.onPostExecute(cursor);
 
-            list = cursor;
-            adapter.replaceAll(list);
+            FavoriteFragment.this.cursor = cursor;
+            adapter.replaceAll(FavoriteFragment.this.cursor);
         }
     }
 }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.aranirahan.mycataloguemovie.BuildConfig;
 import com.aranirahan.mycataloguemovie.R;
-import com.aranirahan.mycataloguemovie.model.ResultsItem;
+import com.aranirahan.mycataloguemovie.model.sub.ResultsItem;
 import com.aranirahan.mycataloguemovie.myActivity.DetailActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -21,10 +21,10 @@ import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CategoryViewHolder> {
 
-    private ArrayList<ResultsItem> list = new ArrayList<>();
+    private ArrayList<ResultsItem> listResultsItems = new ArrayList<>();
 
-    private ArrayList<ResultsItem> getList() {
-        return list;
+    private ArrayList<ResultsItem> getListResultsItems() {
+        return listResultsItems;
     }
 
     public MainAdapter() {
@@ -41,12 +41,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CategoryViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        holder.bind(list.get(position));
+        holder.bind(listResultsItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return getList().size();
+        return getListResultsItems().size();
     }
 
     class CategoryViewHolder extends RecyclerView.ViewHolder {
@@ -79,6 +79,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CategoryViewHo
                     .into(imgPoster);
 
             setOnClick(btnDetail, item, itemView);
+            setOnClick(btnShare, item, itemView);
         }
     }
 
@@ -87,18 +88,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CategoryViewHo
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.btn_share:
-                        Intent intent2 = new Intent(Intent.ACTION_SEND);
-                        intent2.setType("text/plain");
-                        intent2.putExtra(Intent.EXTRA_TITLE, item.getTitle());
-                        intent2.putExtra(Intent.EXTRA_SUBJECT, item.getTitle());
-                        intent2.putExtra(Intent.EXTRA_TEXT, item.getTitle() + "\n\n" + item.getOverview());
-                        itemView.getContext().startActivity(Intent.createChooser(intent2, itemView.getResources().getString(R.string.share)));
-                        break;
                     case R.id.btn_detail:
-                            Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-                            intent.putExtra(DetailActivity.KEY_ITEM, new Gson().toJson(item));
-                            itemView.getContext().startActivity(intent);
+                        Intent intentDetail = new Intent(itemView.getContext(), DetailActivity.class);
+                        intentDetail.putExtra(DetailActivity.KEY_ITEM, new Gson().toJson(item));
+                        itemView.getContext().startActivity(intentDetail);
+                        break;
+                    case R.id.btn_share:
+                        Intent intentShare = new Intent(Intent.ACTION_SEND);
+                        intentShare.setType("text/plain");
+                        intentShare.putExtra(Intent.EXTRA_TEXT,
+                                item.getTitle().toUpperCase()
+                                        + "\n\n" + item.getOverview());
+                        itemView.getContext().startActivity(Intent.createChooser(intentShare,
+                                itemView.getResources().getString(R.string.share)));
                         break;
                 }
             }
@@ -106,9 +108,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CategoryViewHo
         });
     }
 
-    public void replaceAll(ArrayList<ResultsItem> items) {
-        list.clear();
-        list = items;
+    public void replaceListResultsItem(ArrayList<ResultsItem> items) {
+        listResultsItems.clear();
+        listResultsItems = items;
         notifyDataSetChanged();
     }
 }

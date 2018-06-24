@@ -1,5 +1,7 @@
 package com.aranirahan.mycataloguemovie.api;
 
+import android.support.annotation.NonNull;
+
 import com.aranirahan.mycataloguemovie.BuildConfig;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ public class ApiClient {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new Interceptor() {
                         @Override
-                        public Response intercept(Chain chain) throws IOException {
+                        public Response intercept(@NonNull Chain chain) throws IOException {
                             Request original = chain.request();
                             HttpUrl httpUrl = original.url()
                                     .newBuilder()

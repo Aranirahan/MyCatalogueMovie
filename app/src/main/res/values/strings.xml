@@ -19,11 +19,14 @@
     <string name="error_message">Load Failed!!!</string>
     <string name="detail">Detail</string>
     <string name="share">Share</string>
-
     <string name="search">Search</string>
     <string name="search_result">Search Result</string>
     <string name="action_language">Language</string>
     <string name="detail_movie">Detail Movie</string>
     <string name="add_favorite">Added to favorite</string>
     <string name="remove_favorite">Removed from favorite</string>
+    <string name="backdrop">Backdrop</string>
+    <string name="poster">Poster</string>
+    <string name="vote">Vote :</string>
+    <string name="star">star</string>
 </resources>

@@ -8,20 +8,25 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.aranirahan.mycataloguemovie.database.DatabaseContract;
+import com.aranirahan.mycataloguemovie.database.FavoriteTable;
 import com.aranirahan.mycataloguemovie.database.FavoriteHelper;
 
-import static com.aranirahan.mycataloguemovie.provider.DatabaseContract.CONTENT_URI;
+import java.util.Objects;
+
+import static com.aranirahan.mycataloguemovie.database.DatabaseContract.CONTENT_URI;
 
 public class FavoriteProvider extends ContentProvider {
 
-    private static final int FAVORITE = 100;
-    private static final int FAVORITE_ID = 101;
+    private static final int FAVORITE = 1;
+    private static final int FAVORITE_ID = 2;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        sUriMatcher.addURI(DatabaseContract.AUTHORITY, FavoriteColumns.TABLE_NAME, FAVORITE);
-        sUriMatcher.addURI(DatabaseContract.AUTHORITY, FavoriteColumns.TABLE_NAME + "/#", FAVORITE_ID);
+        sUriMatcher.addURI(DatabaseContract.AUTHORITY, FavoriteTable.TABLE_NAME, FAVORITE);
+        sUriMatcher.addURI(DatabaseContract.AUTHORITY, FavoriteTable.TABLE_NAME + "/#",
+                FAVORITE_ID);
     }
 
     private FavoriteHelper favoriteHelper;
@@ -35,7 +40,11 @@ public class FavoriteProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
+    public Cursor query(@NonNull Uri uri,
+                        @Nullable String[] strings,
+                        @Nullable String s,
+                        @Nullable String[] strings1,
+                        @Nullable String s1) {
         Cursor cursor;
         switch (sUriMatcher.match(uri)) {
             case FAVORITE:
@@ -52,7 +61,8 @@ public class FavoriteProvider extends ContentProvider {
         }
 
         if (cursor != null) {
-            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+            cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(),
+                    uri);
         }
 
         return cursor;
@@ -66,7 +76,8 @@ public class FavoriteProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri,
+                      @Nullable ContentValues contentValues) {
         long added;
         switch (sUriMatcher.match(uri)) {
             case FAVORITE:
@@ -79,7 +90,8 @@ public class FavoriteProvider extends ContentProvider {
         }
 
         if (added > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,
+                    null);
         }
 
         return Uri.parse(CONTENT_URI + "/" + added);
@@ -99,13 +111,17 @@ public class FavoriteProvider extends ContentProvider {
         }
 
         if (deleted > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,
+                    null);
         }
         return deleted;
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
+    public int update(@NonNull Uri uri,
+                      @Nullable ContentValues contentValues,
+                      @Nullable String s,
+                      @Nullable String[] strings) {
         int updated;
         switch (sUriMatcher.match(uri)) {
             case FAVORITE_ID:
@@ -118,7 +134,8 @@ public class FavoriteProvider extends ContentProvider {
         }
 
         if (updated > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,
+                    null);
         }
 
         return updated;

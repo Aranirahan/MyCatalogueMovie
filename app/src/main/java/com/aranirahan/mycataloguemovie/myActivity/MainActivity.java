@@ -94,11 +94,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_reminder) {
-//            Intent intent = new Intent(this, SettingsActivity.class);
-//            startActivity(intent);
-//            return true;
-        }
         if (id == R.id.action_language) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             startActivity(mIntent);

@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.adapter.MainAdapter;
 import com.aranirahan.mycataloguemovie.api.ApiClient;
-import com.aranirahan.mycataloguemovie.model.PlayingModel;
+import com.aranirahan.mycataloguemovie.model.main.PlayingModel;
 import com.aranirahan.mycataloguemovie.util.MyLocaleState;
 
 import java.util.Objects;
@@ -28,7 +27,6 @@ import retrofit2.Response;
 public class PlayingFragment extends Fragment {
 
     private MainAdapter mainAdapter;
-    private ApiClient apiClient = new ApiClient();
 
     public PlayingFragment() {
     }
@@ -39,6 +37,8 @@ public class PlayingFragment extends Fragment {
         Objects.requireNonNull(getActivity()).setTitle(R.string.playing_movie);
         final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        ApiClient apiClient = new ApiClient();
+
         RecyclerView rvMain = view.findViewById(R.id.rv_main);
 
         mainAdapter = new MainAdapter();
@@ -46,15 +46,14 @@ public class PlayingFragment extends Fragment {
         rvMain.setAdapter(mainAdapter);
 
         Call<PlayingModel> apiCall = apiClient.getService().getPlayingMovie(MyLocaleState.getLocaleState());
-        Log.d("PF", MyLocaleState.getLocaleState());
         apiCall.enqueue(new Callback<PlayingModel>() {
             @Override
             public void onResponse(@NonNull Call<PlayingModel> call,
                                    @NonNull Response<PlayingModel> response) {
                 if (response.isSuccessful()) {
-                    mainAdapter.replaceAll(Objects.requireNonNull(response.body()).getResults());
+                    mainAdapter.replaceListResultsItem(Objects.requireNonNull(response.body()).getResults());
                 } else {
-                   failedSnackbar(view);
+                    failedSnackbar(view);
                 }
             }
 
@@ -68,8 +67,8 @@ public class PlayingFragment extends Fragment {
         return view;
     }
 
-    private void failedSnackbar(View view){
-        Snackbar snack =Snackbar.make(view.findViewById(R.id.fl_main),
+    private void failedSnackbar(View view) {
+        Snackbar snack = Snackbar.make(view.findViewById(R.id.fl_main),
                 R.string.error_message,
                 Snackbar.LENGTH_LONG);
         View myView = snack.getView();

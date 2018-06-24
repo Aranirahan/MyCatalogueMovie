@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
@@ -13,7 +13,8 @@
         <ImageView
             android:id="@+id/img_backdrop"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            android:contentDescription="@string/backdrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +25,8 @@
                 android:id="@+id/img_poster"
                 android:layout_width="110dp"
                 android:layout_height="170dp"
-                android:layout_margin="12dp" />
+                android:layout_margin="12dp"
+                android:contentDescription="@string/poster" />
 
             <LinearLayout
                 android:layout_width="190dp"
@@ -36,9 +38,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="18dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -49,16 +51,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="12dp"
-                        android:text="Vote : " />
+                        android:text="@string/vote" />
 
                     <TextView
                         android:id="@+id/tv_vote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="12dp" />
                 </LinearLayout>
 
@@ -70,7 +72,51 @@
                     android:layout_margin="5dp"
                     android:text="" />
 
-                <include layout="@layout/detail_rating" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/img_star1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/star"
+                        android:src="@drawable/ic_star_border_black_24dp"
+                        android:tint="@android:color/tertiary_text_light" />
+
+                    <ImageView
+                        android:id="@+id/img_star2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/star"
+                        android:src="@drawable/ic_star_border_black_24dp"
+                        android:tint="@android:color/tertiary_text_light" />
+
+                    <ImageView
+                        android:id="@+id/img_star3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/star"
+                        android:src="@drawable/ic_star_border_black_24dp"
+                        android:tint="@android:color/tertiary_text_light" />
+
+                    <ImageView
+                        android:id="@+id/img_star4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/star"
+                        android:src="@drawable/ic_star_border_black_24dp"
+                        android:tint="@android:color/tertiary_text_light" />
+
+                    <ImageView
+                        android:id="@+id/img_star5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/star"
+                        android:src="@drawable/ic_star_border_black_24dp"
+                        android:tint="@android:color/tertiary_text_light" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_release_date"
@@ -81,12 +127,13 @@
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/iv_fav"
+                android:id="@+id/iv_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="18dp"
-                android:layout_marginLeft="4dp"
                 android:background="@android:color/transparent"
+                android:contentDescription="@string/favorite"
                 android:src="@drawable/ic_favorite_border_black_24dp" />
         </LinearLayout>
 
@@ -94,7 +141,7 @@
             android:id="@+id/tv_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 </ScrollView>

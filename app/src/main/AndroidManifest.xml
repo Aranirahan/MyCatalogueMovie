@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aranirahan.mycataloguemovie">
 
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <permission
         android:name="com.aranirahan.mycataloguemovie.READ_DATABASE"
         android:protectionLevel="normal" />
@@ -27,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".myActivity.SearchActivity" />
-        <activity android:name=".myActivity.DetailActivity"></activity>
+        <activity android:name=".myActivity.DetailActivity" />
 
         <provider
             android:name=".provider.FavoriteProvider"

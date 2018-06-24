@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.adapter.MainAdapter;
 import com.aranirahan.mycataloguemovie.api.ApiClient;
-import com.aranirahan.mycataloguemovie.model.UpcomingModel;
+import com.aranirahan.mycataloguemovie.model.main.UpcomingModel;
 import com.aranirahan.mycataloguemovie.util.MyLocaleState;
 
 import java.util.Objects;
@@ -27,7 +27,6 @@ import retrofit2.Response;
 public class UpcomingFragment extends Fragment {
 
     private MainAdapter mainAdapter;
-    private ApiClient apiClient = new ApiClient();
 
     public UpcomingFragment() {
     }
@@ -38,19 +37,23 @@ public class UpcomingFragment extends Fragment {
         Objects.requireNonNull(getActivity()).setTitle(R.string.upcoming_movie);
         final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        ApiClient apiClient = new ApiClient();
+
         RecyclerView rvMain = view.findViewById(R.id.rv_main);
 
         mainAdapter = new MainAdapter();
         rvMain.setLayoutManager(new LinearLayoutManager(view.getContext()));
         rvMain.setAdapter(mainAdapter);
 
-        Call<UpcomingModel> apiCall = apiClient.getService().getUpcomingMovie(MyLocaleState.getLocaleState());
+        Call<UpcomingModel> apiCall = apiClient.getService()
+                .getUpcomingMovie(MyLocaleState.getLocaleState());
         apiCall.enqueue(new Callback<UpcomingModel>() {
             @Override
             public void onResponse(@NonNull Call<UpcomingModel> call,
                                    @NonNull Response<UpcomingModel> response) {
                 if (response.isSuccessful()) {
-                    mainAdapter.replaceAll(Objects.requireNonNull(response.body()).getResults());
+                    mainAdapter.replaceListResultsItem(Objects
+                            .requireNonNull(response.body()).getResults());
                 } else {
                     failedSnackbar(view);
                 }

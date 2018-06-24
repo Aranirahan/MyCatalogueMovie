@@ -1,24 +1,25 @@
 package com.aranirahan.mycataloguemovie.myActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aranirahan.mycataloguemovie.BuildConfig;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.api.ApiClient;
 import com.aranirahan.mycataloguemovie.database.FavoriteHelper;
-import com.aranirahan.mycataloguemovie.model.ResultsItem;
-import com.aranirahan.mycataloguemovie.model.detail.DetailModel;
-import com.aranirahan.mycataloguemovie.provider.FavoriteColumns;
+import com.aranirahan.mycataloguemovie.database.FavoriteTable;
+import com.aranirahan.mycataloguemovie.model.sub.ResultsItem;
+import com.aranirahan.mycataloguemovie.model.main.DetailModel;
 import com.aranirahan.mycataloguemovie.util.MyLocaleState;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -30,28 +31,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.aranirahan.mycataloguemovie.provider.DatabaseContract.CONTENT_URI;
+import static com.aranirahan.mycataloguemovie.database.DatabaseContract.CONTENT_URI;
 
-
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String KEY_ITEM = "KEY_ITEM";
 
-    TextView tv_title;
-    ImageView img_backdrop;
-    ImageView img_poster;
-    TextView tv_release_date;
-    TextView tv_vote;
-    TextView tv_revenue;
-    TextView tv_overview;
-    ImageView iv_fav;
-    ImageView[] img_vote;
+    TextView tvTitle;
+    ImageView imgBackdrop;
+    ImageView imgPoster;
+    TextView tvReleaseDate;
+    TextView tvVote;
+    TextView tvRevenue;
+    TextView tvOverview;
+    ImageView ivFavorite;
+    ImageView[] imgVote;
 
     private Call<DetailModel> apiCall;
     private ApiClient apiClient = new ApiClient();
     private Gson gson = new Gson();
 
-    private ResultsItem item;
+    private ResultsItem resultsItem;
     private FavoriteHelper favoriteHelper;
     private Boolean isFavorite = false;
 
@@ -59,33 +59,31 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.detail_movie);
 
-        img_vote = new ImageView[5];
-        tv_title = findViewById(R.id.tv_title);
-        img_backdrop = findViewById(R.id.img_backdrop);
-        img_poster = findViewById(R.id.img_poster);
-        tv_release_date = findViewById(R.id.tv_release_date);
-        tv_vote = findViewById(R.id.tv_vote);
-        tv_overview = findViewById(R.id.tv_overview);
-        tv_revenue = findViewById(R.id.tv_revenue);
-        iv_fav = findViewById(R.id.iv_fav);
-        img_vote[0] = findViewById(R.id.img_star1);
-        img_vote[1] = findViewById(R.id.img_star2);
-        img_vote[2] = findViewById(R.id.img_star3);
-        img_vote[3] = findViewById(R.id.img_star4);
-        img_vote[4] = findViewById(R.id.img_star5);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
+        imgVote = new ImageView[5];
+        tvTitle = findViewById(R.id.tv_title);
+        imgBackdrop = findViewById(R.id.img_backdrop);
+        imgPoster = findViewById(R.id.img_poster);
+        tvReleaseDate = findViewById(R.id.tv_release_date);
+        tvVote = findViewById(R.id.tv_vote);
+        tvOverview = findViewById(R.id.tv_overview);
+        tvRevenue = findViewById(R.id.tv_revenue);
+        ivFavorite = findViewById(R.id.iv_favorite);
+        imgVote[0] = findViewById(R.id.img_star1);
+        imgVote[1] = findViewById(R.id.img_star2);
+        imgVote[2] = findViewById(R.id.img_star3);
+        imgVote[3] = findViewById(R.id.img_star4);
+        imgVote[4] = findViewById(R.id.img_star5);
 
         String json = getIntent().getStringExtra(KEY_ITEM);
-        item = gson.fromJson(json, ResultsItem.class);
+        resultsItem = gson.fromJson(json, ResultsItem.class);
 
         favoriteHelper = new FavoriteHelper(this);
         favoriteHelper.open();
 
         Cursor cursor = getContentResolver().query(
-                Uri.parse(CONTENT_URI + "/" + item.getId()),
+                Uri.parse(CONTENT_URI + "/" + resultsItem.getId()),
                 null,
                 null,
                 null,
@@ -97,30 +95,34 @@ public class DetailActivity extends AppCompatActivity {
             cursor.close();
         }
 
-        favoriteSet();
+        setFavorite();
 
-        getSupportActionBar().setTitle(item.getTitle());
-        tv_title.setText(item.getTitle());
-        tv_release_date.setText(item.getReleaseDate());
-        tv_vote.setText(String.valueOf(item.getVoteAverage()));
-        tv_overview.setText(item.getOverview());
-
-        Picasso.get()
-                .load(BuildConfig.BASE_URL_IMAGE + "w154" + item.getPosterPath())
-                .into(img_poster);
+        tvTitle.setText(resultsItem.getTitle());
+        tvReleaseDate.setText(resultsItem.getReleaseDate());
+        tvVote.setText(String.valueOf(resultsItem.getVoteAverage()));
+        tvOverview.setText(resultsItem.getOverview());
 
         Picasso.get()
-                .load(BuildConfig.BASE_URL_IMAGE + "w154" + item.getBackdropPath())
-                .into(img_backdrop);
+                .load(BuildConfig.BASE_URL_IMAGE + "w154" + resultsItem.getPosterPath())
+                .into(imgPoster);
 
-        apiCall = apiClient.getService().getDetailMovie(String.valueOf(item.getId()), MyLocaleState.getLocaleState());
+        Picasso.get()
+                .load(BuildConfig.BASE_URL_IMAGE + "w154" + resultsItem.getBackdropPath())
+                .into(imgBackdrop);
+
+        apiCall = apiClient.getService().getDetailMovie(String.valueOf(resultsItem.getId()),
+                MyLocaleState.getLocaleState());
         apiCall.enqueue(new Callback<DetailModel>() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call<DetailModel> call, Response<DetailModel> response) {
+            public void onResponse(@NonNull Call<DetailModel> call,
+                                   @NonNull Response<DetailModel> response) {
                 if (response.isSuccessful()) {
                     DetailModel item = response.body();
 
-                    tv_revenue.setText("Vanue : $ " + NumberFormat.getIntegerInstance().format(item.getRevenue()));
+                    assert item != null;
+                    tvRevenue.setText("Revenue : $ " + NumberFormat.getIntegerInstance()
+                            .format(item.getRevenue()));
 
 
                 } else {
@@ -134,7 +136,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<DetailModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<DetailModel> call, @NonNull Throwable t) {
                 Snackbar snack = Snackbar.make(findViewById(R.id.sv_detail), R.string.error_message,
                         Snackbar.LENGTH_LONG);
                 View myView = snack.getView();
@@ -144,54 +146,68 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        int voteAverage = (int) (item.getVoteAverage());
+        int voteAverage = (int) (resultsItem.getVoteAverage());
 
         for (int i = 0; i < voteAverage / 2; i++) {
-            img_vote[i].setImageResource(R.drawable.ic_star_black_24dp);
+            imgVote[i].setImageResource(R.drawable.ic_star_black_24dp);
         }
 
-        iv_fav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFavorite) FavoriteRemove();
-                else FavoriteSave();
-
-                isFavorite = !isFavorite;
-                favoriteSet();
-            }
-        });
+        ivFavorite.setOnClickListener(this);
     }
 
-    private void favoriteSet() {
-        if (isFavorite) iv_fav.setImageResource(R.drawable.ic_favorite_black_24dp);
-        else iv_fav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+    private void setFavorite() {
+        if (isFavorite) {
+            ivFavorite.setImageResource(R.drawable.ic_favorite_black_24dp);
+        } else {
+            ivFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+        }
     }
 
-    private void loadFailed() {
-        Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void FavoriteSave() {
-        //Log.d("TAG", "FavoriteSave: " + item.getId());
+    private void saveFavorite() {
         ContentValues cv = new ContentValues();
-        cv.put(FavoriteColumns.COLUMN_ID, item.getId());
-        cv.put(FavoriteColumns.COLUMN_TITLE, item.getTitle());
-        cv.put(FavoriteColumns.COLUMN_BACKDROP, item.getBackdropPath());
-        cv.put(FavoriteColumns.COLUMN_POSTER, item.getPosterPath());
-        cv.put(FavoriteColumns.COLUMN_RELEASE_DATE, item.getReleaseDate());
-        cv.put(FavoriteColumns.COLUMN_VOTE, item.getVoteAverage());
-        cv.put(FavoriteColumns.COLUMN_OVERVIEW, item.getOverview());
+        cv.put(FavoriteTable.ID_, resultsItem.getId());
+        cv.put(FavoriteTable.POSTER, resultsItem.getPosterPath());
+        cv.put(FavoriteTable.BACKDROP, resultsItem.getBackdropPath());
+        cv.put(FavoriteTable.TITLE, resultsItem.getTitle());
+        cv.put(FavoriteTable.OVERVIEW, resultsItem.getOverview());
+        cv.put(FavoriteTable.RELEASE_DATE, resultsItem.getReleaseDate());
+        cv.put(FavoriteTable.VOTE, resultsItem.getVoteAverage());
 
         getContentResolver().insert(CONTENT_URI, cv);
-        Toast.makeText(this, R.string.add_favorite, Toast.LENGTH_SHORT).show();
+
+        Snackbar.make(findViewById(R.id.sv_detail),
+                R.string.add_favorite,
+                Snackbar.LENGTH_LONG).show();
     }
 
-    private void FavoriteRemove() {
+    private void removeFavorite() {
         getContentResolver().delete(
-                Uri.parse(CONTENT_URI + "/" + item.getId()),
+                Uri.parse(CONTENT_URI + "/" + resultsItem.getId()),
                 null,
                 null
         );
-        Toast.makeText(this, R.string.remove_favorite, Toast.LENGTH_SHORT).show();
+
+        Snackbar.make(findViewById(R.id.sv_detail),
+                R.string.remove_favorite,
+                Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (apiCall != null) {
+            apiCall.cancel();
+        }
+        if (favoriteHelper != null) {
+            favoriteHelper.close();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (isFavorite) removeFavorite();
+        else saveFavorite();
+        isFavorite = !isFavorite;
+        setFavorite();
     }
 }
