@@ -1,6 +1,6 @@
 # MyCatalogueMovie
 **Features :**<br>
-- Now Playing Movie <br>
+- Now Playing Movie<br>
 - Upcoming Movie<br>
 - Favorite Movie<br>
 - Indonesian Language Support<br>
@@ -16,5 +16,5 @@ Use api [themoviedb.com](themoviedb.com)<br><br>
 <img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41820369-0135fecc-77fb-11e8-9223-8aeda35aa2ee.png">
 <img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41820370-017a79a8-77fb-11e8-9218-cc0724085334.png">
 <img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41820371-01cb524c-77fb-11e8-8d90-9bb09bdfb832.png">
-<img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41804387-05c057b2-76c0-11e8-969f-b3cb963d8c39.png">
+<img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41804392-07791ad0-76c0-11e8-8de0-59bcfd1ec6bb.png">
 
