@@ -21,19 +21,19 @@ import static com.aranirahan.mycataloguemovie.database.DatabaseContract.CONTENT_
 
 public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private Context mContext;
+    private Context context;
     private int mAppWidgetId;
 
     private Cursor list;
 
     public StackRemoteViewsFactory(Context applicationContext, Intent intent) {
-        mContext = applicationContext;
+        context = applicationContext;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
     public void onCreate() {
-        list = mContext.getContentResolver().query(
+        list = context.getContentResolver().query(
                 CONTENT_URI,
                 null,
                 null,
@@ -58,32 +58,35 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     }
 
     @Override
-    public RemoteViews getViewAt(int i) {
-        ResultsItem item = getItem(i);
-        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.stack_widget_item);
-
+    public RemoteViews getViewAt(int position) {
+        ResultsItem resultsItem = getResultsItem(position);
+        String posterPath = resultsItem.getPosterPath();
         Bitmap bitmap = null;
         try {
-            bitmap = Glide.with(mContext)
+            bitmap = Glide.with(context)
                     .asBitmap()
-                    .load(BuildConfig.BASE_URL_IMAGE + "w500" + item.getBackdropPath())
+                    .load(BuildConfig.BASE_URL_IMAGE + "w500" + posterPath)
                     .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        rv.setImageViewBitmap(R.id.imageView, bitmap);
-
+        RemoteViews remoteViews = new RemoteViews(
+                context.getPackageName(),
+                R.layout.stack_widget_item);
+        remoteViews.setImageViewBitmap(R.id.imageView, bitmap);
+        remoteViews.setTextViewText(
+                R.id.tanggalFavorite,
+                resultsItem.getReleaseDate()
+        );
         Bundle extras = new Bundle();
-        extras.putInt(StackWidget.EXTRA_ITEM, i);
+        extras.putLong(FavoriteWidget.EXTRA_ITEM, position);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
 
-        rv.setOnClickFillInIntent(R.id.imageView, fillInIntent);
-        return rv;
+        remoteViews.setOnClickFillInIntent(R.id.imageView, fillInIntent);
+        return remoteViews;
     }
 
     @Override
@@ -106,11 +109,8 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
         return false;
     }
 
-    private ResultsItem getItem(int position) {
-        if (!list.moveToPosition(position)) {
-            throw new IllegalStateException("Position invalid!");
-        }
-
+    private ResultsItem getResultsItem(int position) {
+        list.moveToPosition(position);
         return new ResultsItem(list);
     }
 }

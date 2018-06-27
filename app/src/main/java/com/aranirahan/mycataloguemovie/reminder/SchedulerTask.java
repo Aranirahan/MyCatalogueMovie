@@ -1,9 +1,3 @@
-/*
- * Created by omrobbie.
- * Copyright (c) 2018. All rights reserved.
- * Last modified 11/8/17 3:16 PM.
- */
-
 package com.aranirahan.mycataloguemovie.reminder;
 
 import android.content.Context;
@@ -12,9 +6,6 @@ import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
 
-/**
- * Created by omrobbie on 10/10/2017.
- */
 
 public class SchedulerTask {
     private GcmNetworkManager mGcmNetworkManager;
@@ -25,10 +16,10 @@ public class SchedulerTask {
 
     public void createPeriodicTask() {
         Task periodicTask = new PeriodicTask.Builder()
-                .setService(SchedulerService.class)
-                .setPeriod(3 * 60 * 1000)
+                .setService(UpcomingMovieService.class)
+                .setPeriod(30)
                 .setFlex(10)
-                .setTag(SchedulerService.TAG_TASK_UPCOMING)
+                .setTag(UpcomingMovieService.UPCOMING_SCHEDULER_TAG)
                 .setPersisted(true)
                 .build();
         mGcmNetworkManager.schedule(periodicTask);
@@ -36,7 +27,9 @@ public class SchedulerTask {
 
     public void cancelPeriodicTask() {
         if (mGcmNetworkManager != null) {
-            mGcmNetworkManager.cancelTask(SchedulerService.TAG_TASK_UPCOMING, SchedulerService.class);
+            mGcmNetworkManager.cancelTask(
+                    UpcomingMovieService.UPCOMING_SCHEDULER_TAG,
+                    UpcomingMovieService.class);
         }
     }
 }
