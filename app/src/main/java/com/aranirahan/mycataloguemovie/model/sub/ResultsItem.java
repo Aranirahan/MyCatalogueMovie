@@ -16,7 +16,6 @@ import static com.aranirahan.mycataloguemovie.database.FavoriteTable.POSTER;
 import static com.aranirahan.mycataloguemovie.database.FavoriteTable.RELEASE_DATE;
 import static com.aranirahan.mycataloguemovie.database.FavoriteTable.TITLE;
 import static com.aranirahan.mycataloguemovie.database.FavoriteTable.VOTE;
-
 public class ResultsItem {
 
     @SerializedName("overview")
@@ -185,7 +184,6 @@ public class ResultsItem {
         this.voteAverage = getColumnDouble(cursor, VOTE);
         this.overview = getColumnString(cursor, OVERVIEW);
     }
-
     @Override
     public String toString() {
         return

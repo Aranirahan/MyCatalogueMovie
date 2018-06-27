@@ -7,6 +7,7 @@ import com.aranirahan.mycataloguemovie.model.sub.ProductionCountriesItem;
 import com.aranirahan.mycataloguemovie.model.sub.SpokenLanguagesItem;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailItem {
@@ -30,13 +31,13 @@ public class DetailItem {
     private int revenue;
 
     @SerializedName("genres")
-    private List<GenresItem> genres;
+    private ArrayList<GenresItem> genres;
 
     @SerializedName("popularity")
     private double popularity;
 
     @SerializedName("production_countries")
-    private List<ProductionCountriesItem> productionCountries;
+    private ArrayList<ProductionCountriesItem> productionCountries;
 
     @SerializedName("id")
     private int id;
@@ -72,7 +73,7 @@ public class DetailItem {
     private double voteAverage;
 
     @SerializedName("belongs_to_collection")
-    private BelongsToCollectionItem belongsToCollection;
+    private BelongsToCollectionItem belongsToCollectionItem;
 
     @SerializedName("tagline")
     private String tagline;
@@ -134,11 +135,11 @@ public class DetailItem {
         return revenue;
     }
 
-    public void setGenres(List<GenresItem> genres) {
+    public void setGenres(ArrayList<GenresItem> genres) {
         this.genres = genres;
     }
 
-    public List<GenresItem> getGenres() {
+    public ArrayList<GenresItem> getGenres() {
         return genres;
     }
 
@@ -150,11 +151,11 @@ public class DetailItem {
         return popularity;
     }
 
-    public void setProductionCountries(List<ProductionCountriesItem> productionCountries) {
+    public void setProductionCountries(ArrayList<ProductionCountriesItem> productionCountries) {
         this.productionCountries = productionCountries;
     }
 
-    public List<ProductionCountriesItem> getProductionCountries() {
+    public ArrayList<ProductionCountriesItem> getProductionCountries() {
         return productionCountries;
     }
 
@@ -246,12 +247,12 @@ public class DetailItem {
         return voteAverage;
     }
 
-    public void setBelongsToCollection(BelongsToCollectionItem belongsToCollection) {
-        this.belongsToCollection = belongsToCollection;
+    public void setBelongsToCollectionItem(BelongsToCollectionItem belongsToCollectionItem) {
+        this.belongsToCollectionItem = belongsToCollectionItem;
     }
 
-    public BelongsToCollectionItem getBelongsToCollection() {
-        return belongsToCollection;
+    public BelongsToCollectionItem getBelongsToCollectionItem() {
+        return belongsToCollectionItem;
     }
 
     public void setTagline(String tagline) {
@@ -310,7 +311,7 @@ public class DetailItem {
                         ",production_companies = '" + productionCompanies + '\'' +
                         ",release_date = '" + releaseDate + '\'' +
                         ",vote_average = '" + voteAverage + '\'' +
-                        ",belongs_to_collection = '" + belongsToCollection + '\'' +
+                        ",belongs_to_collection = '" + belongsToCollectionItem + '\'' +
                         ",tagline = '" + tagline + '\'' +
                         ",adult = '" + adult + '\'' +
                         ",homepage = '" + homepage + '\'' +

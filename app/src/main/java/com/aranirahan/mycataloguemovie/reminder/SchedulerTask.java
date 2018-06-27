@@ -17,7 +17,7 @@ public class SchedulerTask {
     public void createPeriodicTask() {
         Task periodicTask = new PeriodicTask.Builder()
                 .setService(UpcomingMovieService.class)
-                .setPeriod(30)
+                .setPeriod(100)
                 .setFlex(10)
                 .setTag(UpcomingMovieService.UPCOMING_SCHEDULER_TAG)
                 .setPersisted(true)

@@ -55,7 +55,7 @@ public class SettingActivity extends AppCompatActivity {
 
             if (Objects.equals(preferenceKey, reminderDailyKey)) {
                 if ((boolean) object) {
-                    dailyAlarmReceiver.setRepeatingAlarm(getActivity(), "02:42:59");
+                    dailyAlarmReceiver.setRepeatingAlarm(getActivity(), "03:47:59");
                 } else {
                     dailyAlarmReceiver.cancelAlarm(getActivity());
                 }
