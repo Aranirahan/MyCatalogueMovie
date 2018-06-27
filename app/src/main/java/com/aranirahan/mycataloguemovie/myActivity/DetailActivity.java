@@ -18,8 +18,8 @@ import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.api.ApiClient;
 import com.aranirahan.mycataloguemovie.database.FavoriteHelper;
 import com.aranirahan.mycataloguemovie.database.FavoriteTable;
+import com.aranirahan.mycataloguemovie.model.main.DetailItem;
 import com.aranirahan.mycataloguemovie.model.sub.ResultsItem;
-import com.aranirahan.mycataloguemovie.model.main.DetailModel;
 import com.aranirahan.mycataloguemovie.util.MyLocaleState;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     ImageView ivFavorite;
     ImageView[] imgVote;
 
-    private Call<DetailModel> apiCall;
+    private Call<DetailItem> apiCall;
     private ApiClient apiClient = new ApiClient();
     private Gson gson = new Gson();
 
@@ -112,13 +112,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         apiCall = apiClient.getService().getDetailMovie(String.valueOf(resultsItem.getId()),
                 MyLocaleState.getLocaleState());
-        apiCall.enqueue(new Callback<DetailModel>() {
+        apiCall.enqueue(new Callback<DetailItem>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<DetailModel> call,
-                                   @NonNull Response<DetailModel> response) {
+            public void onResponse(@NonNull Call<DetailItem> call,
+                                   @NonNull Response<DetailItem> response) {
                 if (response.isSuccessful()) {
-                    DetailModel item = response.body();
+                    DetailItem item = response.body();
 
                     assert item != null;
                     tvRevenue.setText("Revenue : $ " + NumberFormat.getIntegerInstance()
@@ -136,7 +136,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             @Override
-            public void onFailure(@NonNull Call<DetailModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<DetailItem> call, @NonNull Throwable t) {
                 Snackbar snack = Snackbar.make(findViewById(R.id.sv_detail), R.string.error_message,
                         Snackbar.LENGTH_LONG);
                 View myView = snack.getView();

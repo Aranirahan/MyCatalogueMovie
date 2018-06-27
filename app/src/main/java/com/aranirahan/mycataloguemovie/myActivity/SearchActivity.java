@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.adapter.MainAdapter;
 import com.aranirahan.mycataloguemovie.api.ApiClient;
-import com.aranirahan.mycataloguemovie.model.main.SearchModel;
+import com.aranirahan.mycataloguemovie.model.main.SearchItem;
 import com.aranirahan.mycataloguemovie.util.MyLocaleState;
 
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,12 +45,12 @@ public class SearchActivity extends AppCompatActivity {
 
         String searchInput = getIntent().getStringExtra(KEY_SEARCH_INPUT);
 
-        Call<SearchModel> apiCall = apiClient.getService().getSearchMovie(searchInput,
+        Call<SearchItem> apiCall = apiClient.getService().getSearchMovie(searchInput,
                 MyLocaleState.getLocaleState());
-        apiCall.enqueue(new Callback<SearchModel>() {
+        apiCall.enqueue(new Callback<SearchItem>() {
             @Override
-            public void onResponse(@NonNull Call<SearchModel> call,
-                                   @NonNull Response<SearchModel> response) {
+            public void onResponse(@NonNull Call<SearchItem> call,
+                                   @NonNull Response<SearchItem> response) {
                 if (response.isSuccessful()) {
                     mainAdapter.replaceListResultsItem(Objects
                             .requireNonNull(response.body())
@@ -67,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<SearchModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<SearchItem> call, @NonNull Throwable t) {
                 Snackbar snack = Snackbar.make(findViewById(R.id.ll_search),
                         R.string.error_message,
                         Snackbar.LENGTH_LONG);

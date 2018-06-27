@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.adapter.MainAdapter;
 import com.aranirahan.mycataloguemovie.api.ApiClient;
-import com.aranirahan.mycataloguemovie.model.main.PlayingModel;
+import com.aranirahan.mycataloguemovie.model.main.PlayingItem;
 import com.aranirahan.mycataloguemovie.util.MyLocaleState;
 
 import java.util.Objects;
@@ -45,11 +45,11 @@ public class PlayingFragment extends Fragment {
         rvMain.setLayoutManager(new LinearLayoutManager(view.getContext()));
         rvMain.setAdapter(mainAdapter);
 
-        Call<PlayingModel> apiCall = apiClient.getService().getPlayingMovie(MyLocaleState.getLocaleState());
-        apiCall.enqueue(new Callback<PlayingModel>() {
+        Call<PlayingItem> apiCall = apiClient.getService().getPlayingMovie(MyLocaleState.getLocaleState());
+        apiCall.enqueue(new Callback<PlayingItem>() {
             @Override
-            public void onResponse(@NonNull Call<PlayingModel> call,
-                                   @NonNull Response<PlayingModel> response) {
+            public void onResponse(@NonNull Call<PlayingItem> call,
+                                   @NonNull Response<PlayingItem> response) {
                 if (response.isSuccessful()) {
                     mainAdapter.replaceListResultsItem(Objects.requireNonNull(response.body()).getResults());
                 } else {
@@ -58,7 +58,7 @@ public class PlayingFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<PlayingModel> call,
+            public void onFailure(@NonNull Call<PlayingItem> call,
                                   @NonNull Throwable t) {
                 failedSnackbar(view);
             }
@@ -76,4 +76,5 @@ public class PlayingFragment extends Fragment {
         tv.setTextColor(Color.RED);
         snack.show();
     }
+    
 }

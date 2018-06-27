@@ -23,10 +23,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Catego
     private Cursor listResultsItem;
 
     public FavoriteAdapter(Cursor items) {
-        replaceAll(items);
+        replaceListResultsItem(items);
     }
 
-    public void replaceAll(Cursor items) {
+    public void replaceListResultsItem(Cursor items) {
         listResultsItem = items;
         notifyDataSetChanged();
     }

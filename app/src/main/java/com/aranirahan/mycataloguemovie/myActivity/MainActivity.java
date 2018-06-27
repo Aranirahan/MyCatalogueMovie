@@ -31,19 +31,19 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (savedInstanceState == null) {
-            Fragment fragment = null;
-            Class fragmentClass;
-            fragmentClass = PlayingFragment.class;
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fl_content, fragment).commit();
-        }
+//        if (savedInstanceState == null) {
+//            Fragment fragment = null;
+//            Class fragmentClass;
+//            fragmentClass = PlayingFragment.class;
+//            try {
+//                fragment = (Fragment) fragmentClass.newInstance();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            fragmentManager.beginTransaction().replace(R.id.fl_content, fragment).commit();
+//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -54,6 +54,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (savedInstanceState == null) {
+            Fragment currentFragment = new PlayingFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fl_content, currentFragment)
+                    .commit();
+        }
     }
 
     @Override
@@ -97,6 +105,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_language) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             startActivity(mIntent);
+        } if(id == R.id.action_reminder){
+            Intent intentReminder = new Intent(this, SettingActivity.class);
+            startActivity(intentReminder);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,28 +116,54 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Fragment fragment = null;
-        Class fragmentClass = null;
-
+//        Fragment fragment = null;
+//        Class fragmentClass = null;
+//
+//        int id = item.getItemId();
+//
+//        if (id == R.id.playing) {
+//            fragmentClass = PlayingFragment.class;
+//        } else if (id == R.id.upcoming) {
+//            fragmentClass = UpcomingFragment.class;
+//        } else if (id == R.id.favorite) {
+//            fragmentClass = FavoriteFragment.class;
+//        }
+//
+//        try {
+//            assert fragmentClass != null;
+//            fragment = (Fragment) fragmentClass.newInstance();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.fl_content, fragment).commit();
+//
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
+//        return true;
         int id = item.getItemId();
 
+        Fragment fragment = null;
+
         if (id == R.id.playing) {
-            fragmentClass = PlayingFragment.class;
+            fragment = new PlayingFragment();
+
         } else if (id == R.id.upcoming) {
-            fragmentClass = UpcomingFragment.class;
+            fragment = new UpcomingFragment();
+
         } else if (id == R.id.favorite) {
-            fragmentClass = FavoriteFragment.class;
+            fragment = new FavoriteFragment();
+
         }
 
-        try {
-            assert fragmentClass != null;
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fl_content, fragment).commit();
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fl_content, fragment)
+                    .commit();
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

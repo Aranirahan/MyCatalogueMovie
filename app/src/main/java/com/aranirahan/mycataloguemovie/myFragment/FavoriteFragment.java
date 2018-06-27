@@ -67,7 +67,7 @@ public class FavoriteFragment extends Fragment {
             super.onPostExecute(cursor);
 
             FavoriteFragment.this.cursor = cursor;
-            adapter.replaceAll(FavoriteFragment.this.cursor);
+            adapter.replaceListResultsItem(FavoriteFragment.this.cursor);
         }
     }
 }

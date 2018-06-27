@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.adapter.MainAdapter;
 import com.aranirahan.mycataloguemovie.api.ApiClient;
-import com.aranirahan.mycataloguemovie.model.main.UpcomingModel;
+import com.aranirahan.mycataloguemovie.model.main.UpcomingItem;
 import com.aranirahan.mycataloguemovie.util.MyLocaleState;
 
 import java.util.Objects;
@@ -45,12 +45,12 @@ public class UpcomingFragment extends Fragment {
         rvMain.setLayoutManager(new LinearLayoutManager(view.getContext()));
         rvMain.setAdapter(mainAdapter);
 
-        Call<UpcomingModel> apiCall = apiClient.getService()
+        Call<UpcomingItem> apiCall = apiClient.getService()
                 .getUpcomingMovie(MyLocaleState.getLocaleState());
-        apiCall.enqueue(new Callback<UpcomingModel>() {
+        apiCall.enqueue(new Callback<UpcomingItem>() {
             @Override
-            public void onResponse(@NonNull Call<UpcomingModel> call,
-                                   @NonNull Response<UpcomingModel> response) {
+            public void onResponse(@NonNull Call<UpcomingItem> call,
+                                   @NonNull Response<UpcomingItem> response) {
                 if (response.isSuccessful()) {
                     mainAdapter.replaceListResultsItem(Objects
                             .requireNonNull(response.body()).getResults());
@@ -60,7 +60,7 @@ public class UpcomingFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<UpcomingModel> call,
+            public void onFailure(@NonNull Call<UpcomingItem> call,
                                   @NonNull Throwable t) {
                 failedSnackbar(view);
             }
