@@ -17,6 +17,6 @@ Use api [themoviedb.com](themoviedb.com)<br><br>
 <img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41820585-27b11fc0-77fe-11e8-9795-bbe8ab1fc18f.png">
 <img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/42080238-39da9d32-7bac-11e8-8125-7cba2424e76b.png">
 <img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41820371-01cb524c-77fb-11e8-8d90-9bb09bdfb832.png">
-<img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41820374-0264c99a-77fb-11e8-8c1b-efb065241fa8.png">
 <img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/42080359-9f5b431e-7bac-11e8-902b-15d0eee0aedd.png">
+<img width="300" alt="ss1" src="https://user-images.githubusercontent.com/32474003/41820374-0264c99a-77fb-11e8-8c1b-efb065241fa8.png">
 
