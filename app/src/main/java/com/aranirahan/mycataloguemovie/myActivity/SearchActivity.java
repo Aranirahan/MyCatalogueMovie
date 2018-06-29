@@ -1,5 +1,6 @@
 package com.aranirahan.mycataloguemovie.myActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -79,5 +80,4 @@ public class SearchActivity extends AppCompatActivity {
         });
 
     }
-
 }

@@ -12,6 +12,8 @@ import android.widget.RemoteViews;
 import com.aranirahan.mycataloguemovie.R;
 import com.aranirahan.mycataloguemovie.myActivity.MainActivity;
 
+import java.util.Objects;
+
 public class FavoriteWidget extends AppWidgetProvider {
 
     public static final String TOAST_ACTION = "TOAST_ACTION";
@@ -26,8 +28,8 @@ public class FavoriteWidget extends AppWidgetProvider {
         RemoteViews remoteViews = new RemoteViews(
                 context.getPackageName(),
                 R.layout.favorite_widget);
-        remoteViews.setRemoteAdapter(R.id.stack_view, intent);
-        remoteViews.setEmptyView(R.id.stack_view, R.id.empty_view);
+        remoteViews.setRemoteAdapter(R.id.favorite_view, intent);
+        remoteViews.setEmptyView(R.id.favorite_view, R.id.empty_view);
 
         Intent toastIntent = new Intent(context, FavoriteWidget.class);
         toastIntent.setAction(FavoriteWidget.TOAST_ACTION);
@@ -40,11 +42,11 @@ public class FavoriteWidget extends AppWidgetProvider {
                 toastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setPendingIntentTemplate(
-                R.id.stack_view,
+                R.id.favorite_view,
                 toastPendingIntent);
         appWidgetManager.notifyAppWidgetViewDataChanged(
                 appWidgetId,
-                R.id.stack_view);
+                R.id.favorite_view);
         appWidgetManager.updateAppWidget(
                 appWidgetId,
                 remoteViews);
@@ -71,7 +73,7 @@ public class FavoriteWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        if (intent.getAction().equals(TOAST_ACTION)) {
+        if (Objects.requireNonNull(intent.getAction()).equals(TOAST_ACTION)) {
             Intent intentMainActivity = new Intent(context, MainActivity.class);
             context.startActivity(intentMainActivity);
 
@@ -83,7 +85,7 @@ public class FavoriteWidget extends AppWidgetProvider {
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
             appWidgetManager.notifyAppWidgetViewDataChanged(
                     appWidgetIds,
-                    R.id.stack_view
+                    R.id.favorite_view
             );
         }
         super.onReceive(context, intent);

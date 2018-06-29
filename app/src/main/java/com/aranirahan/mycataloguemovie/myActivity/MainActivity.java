@@ -6,7 +6,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,20 +29,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        if (savedInstanceState == null) {
-//            Fragment fragment = null;
-//            Class fragmentClass;
-//            fragmentClass = PlayingFragment.class;
-//            try {
-//                fragment = (Fragment) fragmentClass.newInstance();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.fl_content, fragment).commit();
-//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,7 +91,7 @@ public class MainActivity extends AppCompatActivity
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             startActivity(mIntent);
         } if(id == R.id.action_reminder){
-            Intent intentReminder = new Intent(this, SettingActivity.class);
+            Intent intentReminder = new Intent(this, SettingsActivity.class);
             startActivity(intentReminder);
         }
         return super.onOptionsItemSelected(item);
@@ -116,32 +101,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-//        Fragment fragment = null;
-//        Class fragmentClass = null;
-//
-//        int id = item.getItemId();
-//
-//        if (id == R.id.playing) {
-//            fragmentClass = PlayingFragment.class;
-//        } else if (id == R.id.upcoming) {
-//            fragmentClass = UpcomingFragment.class;
-//        } else if (id == R.id.favorite) {
-//            fragmentClass = FavoriteFragment.class;
-//        }
-//
-//        try {
-//            assert fragmentClass != null;
-//            fragment = (Fragment) fragmentClass.newInstance();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.fl_content, fragment).commit();
-//
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
         int id = item.getItemId();
 
         Fragment fragment = null;
@@ -168,5 +127,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

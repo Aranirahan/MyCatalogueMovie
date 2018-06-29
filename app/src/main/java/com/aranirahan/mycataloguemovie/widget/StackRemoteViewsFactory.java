@@ -1,6 +1,5 @@
 package com.aranirahan.mycataloguemovie.widget;
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,18 +21,16 @@ import static com.aranirahan.mycataloguemovie.database.DatabaseContract.CONTENT_
 public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private Context context;
-    private int mAppWidgetId;
 
-    private Cursor list;
+    private Cursor cursor;
 
-    public StackRemoteViewsFactory(Context applicationContext, Intent intent) {
+    StackRemoteViewsFactory(Context applicationContext) {
         context = applicationContext;
-        mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
     public void onCreate() {
-        list = context.getContentResolver().query(
+        cursor = context.getContentResolver().query(
                 CONTENT_URI,
                 null,
                 null,
@@ -54,7 +51,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
 
     @Override
     public int getCount() {
-        return list.getCount();
+        return cursor.getCount();
     }
 
     @Override
@@ -74,10 +71,10 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
 
         RemoteViews remoteViews = new RemoteViews(
                 context.getPackageName(),
-                R.layout.stack_widget_item);
-        remoteViews.setImageViewBitmap(R.id.imageView, bitmap);
+                R.layout.favorite_widget_item);
+        remoteViews.setImageViewBitmap(R.id.imaiv_favorite_widget, bitmap);
         remoteViews.setTextViewText(
-                R.id.tanggalFavorite,
+                R.id.dateFavorite,
                 resultsItem.getReleaseDate()
         );
         Bundle extras = new Bundle();
@@ -85,7 +82,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
 
-        remoteViews.setOnClickFillInIntent(R.id.imageView, fillInIntent);
+        remoteViews.setOnClickFillInIntent(R.id.imaiv_favorite_widget, fillInIntent);
         return remoteViews;
     }
 
@@ -110,7 +107,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     }
 
     private ResultsItem getResultsItem(int position) {
-        list.moveToPosition(position);
-        return new ResultsItem(list);
+        cursor.moveToPosition(position);
+        return new ResultsItem(cursor);
     }
 }

@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by omrobbie.
-  ~ Copyright (c) 2018. All rights reserved.
-  ~ Last modified 11/16/17 9:52 AM.
-  -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imaiv_favorite_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
@@ -23,6 +17,6 @@
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:textSize="12sp"
-        android:id="@+id/tanggalFavorite"
+        android:id="@+id/dateFavorite"
         />
 </LinearLayout>

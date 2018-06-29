@@ -54,7 +54,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ResultsItem resultsItem;
     private FavoriteHelper favoriteHelper;
     private Boolean isFavorite = false;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
