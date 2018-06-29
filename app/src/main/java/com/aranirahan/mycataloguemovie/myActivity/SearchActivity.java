@@ -67,6 +67,7 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onFailure(@NonNull Call<SearchItem> call, @NonNull Throwable t) {
                 Snackbar snack = Snackbar.make(findViewById(R.id.ll_search),
