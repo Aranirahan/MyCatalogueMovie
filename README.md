@@ -1,4 +1,11 @@
 # MyCatalogueMovie
+**Learning Materials :**<br>
+- Java for android<br>
+- Fetch API<br>
+- All dicoding academy lessons<br>
+[https://www.dicoding.com/academies/14/tutorials](dicoding-MADE-lessons)<br><br>
+
+# MyCatalogueMovie
 **Features :**<br>
 - Now Playing Movie<br>
 - Upcoming Movie<br>
