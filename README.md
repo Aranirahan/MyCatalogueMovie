@@ -2,7 +2,7 @@
 **Learning Materials :**<br>
 - Java for android<br>
 - Fetch API<br>
-- All dicoding academy lessons<br>
+- All Dicoding Academy lessons<br>
 [https://www.dicoding.com/academies/14/tutorials](dicoding-MADE-lessons)<br><br>
 
 # MyCatalogueMovie
