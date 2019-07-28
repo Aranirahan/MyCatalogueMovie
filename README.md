@@ -2,10 +2,10 @@
 **Learning Materials :**<br>
 - Java for android<br>
 - Fetch API<br>
-- All Dicoding Academy lessons<br>
+- SQlite database<br>
+- All lessons on Dicoding Academy <br>
 [https://www.dicoding.com/academies/14/tutorials](dicoding-MADE-lessons)<br><br>
 
-# MyCatalogueMovie
 **Features :**<br>
 - Now Playing Movie<br>
 - Upcoming Movie<br>
