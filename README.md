@@ -1,9 +1,9 @@
 # MyCatalogueMovie
-**Learning Materials :**<br>
+**Lesson Materials :**<br>
 - Java for android<br>
 - Fetch API<br>
 - SQlite database<br>
-- All lessons on [Dicoding Academy - MADE Class](https://www.dicoding.com/academies/14/tutorials)<br><br>
+- Etc. Let's see all lesson on [Dicoding Academy - MADE Class](https://www.dicoding.com/academies/14/tutorials)<br><br>
 
 **Features :**<br>
 - Now Playing Movie<br>
