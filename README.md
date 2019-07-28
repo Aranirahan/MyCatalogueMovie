@@ -3,8 +3,8 @@
 - Java for android<br>
 - Fetch API<br>
 - SQlite database<br>
-- All lessons on Dicoding Academy <br>
-[https://www.dicoding.com/academies/14/tutorials](dicoding-MADE-lessons)<br><br>
+- All lessons on Dicoding Academy - MADE Class<br>
+[Dicoding Academy - MADE Class](https://www.dicoding.com/academies/14/tutorials)<br><br>
 
 **Features :**<br>
 - Now Playing Movie<br>
